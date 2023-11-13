@@ -39,7 +39,7 @@ from cryptocoins.coins.usdt import USDT
 from cryptocoins.coins.bnb import BNB
 from cryptocoins.coins.trx import TRX
 from cryptocoins.coins.matic import MATIC
-
+from cryptocoins.coins.matic import ALQ
 from cryptocoins.utils.btc import generate_btc_multisig_keeper
 
 from exchange.settings import env
