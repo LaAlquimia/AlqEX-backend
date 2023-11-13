@@ -13,6 +13,7 @@ PAIRS_LIST = [
     (ETH_USDT, 'ETH-USDT'),
     (TRX_USDT, 'TRX-USDT'),
     (BNB_USDT, 'BNB-USDT'),
+    (ALQ_USDT, 'ALQ-USDT'),
 ]
 
 class PairNotFound(CurrencyNotFound):

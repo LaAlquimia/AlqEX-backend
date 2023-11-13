@@ -64,6 +64,7 @@ def main():
         BNB,
         TRX,
         MATIC,
+        ALQ,
     ]
     coin_info = {
         ETH: [
@@ -410,6 +411,59 @@ def main():
                 },
             },
         ],
+        ALQ: [
+            {
+                'model': CoinInfo,
+                'find': {'currency': ALQ},
+                'attributes': {
+                    'name': 'Alquimia TOKEN',
+                    'decimals': 2,
+                    'index': 1,
+                    'links': {
+                        "cmc": {
+                            "href": "https://coinmarketcap.com/currencies/tether/",
+                            "title": "CoinMarketCap"
+                        },
+                        "exp": {
+                            "href": "https://bscscan.com/tx/",
+                            "title": "Explorer"
+                        },
+                        "official": {
+                            "href": "https://tether.to/",
+                            "title": "tether.to"
+                        }
+                    }
+                },
+            },
+            {
+                'model': FeesAndLimits,
+                'find': {'currency': USDT},
+                'attributes': {
+                    'limits_deposit_min': 1.00000000,
+                    'limits_deposit_max': 1000000.00000000,
+                    'limits_withdrawal_min': 2.00000000,
+                    'limits_withdrawal_max': 10000.00000000,
+                    'limits_order_min': 1.00000000,
+                    'limits_order_max': 100000.00000000,
+                    'limits_code_max': 100000.00000000,
+                    'limits_accumulation_min': 1.00000000,
+                    'fee_deposit_address': 0,
+                    'fee_deposit_code': 0,
+                    'fee_withdrawal_code': 0,
+                    'fee_order_limits': 0.00100000,
+                    'fee_order_market': 0.00200000,
+                    'fee_exchange_value': 0.00200000,
+                },
+            },
+            {
+                'model': WithdrawalFee,
+                'find': {'currency': ALQ, 'blockchain_currency': BNB},
+                'attributes': {
+                    'blockchain_currency': BNB,
+                    'address_fee': 5.00010000
+                },
+            },
+        ],
     }
 
     if not IS_BSC:
@@ -511,6 +565,7 @@ def main():
                 BNB: 10,
                 TRX: 100_000,
                 MATIC: 10_000,
+                ALQ: 420,
             }
 
             for currency_id, amount in topup_list.items():
@@ -672,6 +727,35 @@ def main():
                     'low_orders_spread_size': 1,
                     'low_orders_min_order_size': 1,
                     'enabled': IS_MATIC,
+                }
+            },
+            Pair.get('ALQ-USDT'): {
+                PairSettings: {
+                    'is_enabled': True,
+                    'is_autoorders_enabled': True,
+                    'price_source': PairSettings.PRICE_SOURCE_CUSTOM,
+                    'custom_price': 0.05,
+                    'deviation': 0.99000000,
+                    'precisions': ['100', '10', '1', '0.1', '0.01']
+                },
+                BotConfig: {
+                    'name': 'ALQ-USDT',
+                    'user': bot,
+                    'strategy': BotConfig.TRADE_STRATEGY_DRAW,
+                    'symbol_precision': 6,
+                    'quote_precision': 6,
+                    'instant_match': True,
+                    'ohlc_period': 60,
+                    'loop_period_random': True,
+                    'min_period': 60,
+                    'max_period': 180,
+                    'ext_price_delta': 0.001,
+                    'min_order_quantity': 10,
+                    'max_order_quantity': 100,
+                    'low_orders_max_match_size': 1,
+                    'low_orders_spread_size': 1,
+                    'low_orders_min_order_size': 1,
+                    'enabled': True,
                 }
             },
         }
